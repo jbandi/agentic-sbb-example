@@ -3,8 +3,8 @@
 Diese Demo zeigt den End-to-End-Workflow der [Engineering-Skills von Matt
 Pocock](https://github.com/mattpocock/skills) an einer bestehenden Anwendung.
 
-**Die Kernaussage für das Publikum:** Arbeiten mit einem Coding-Agenten ist
-kein One-Shot-Prompt. Zwischen „ich hätte gerne Umsteigeverbindungen" und
+**Die Kernaussage:** Arbeiten mit einem Coding-Agenten ist kein
+One-Shot-Prompt. Zwischen „ich hätte gerne Umsteigeverbindungen" und
 fertigem Code liegen fünf Schritte, und jeder einzelne hinterlässt ein
 Artefakt, das man lesen, prüfen und aufbewahren kann.
 
@@ -38,8 +38,8 @@ npm run suche -- Luzern "Interlaken Ost" 08:00  # "Keine Verbindung gefunden."
 Der zweite Aufruf ist der Aufhänger: Die Reise ist mit einem Umstieg in Olten
 problemlos möglich, aber die Suche kennt keine Umstiege.
 
-Warum dieses Feature? Es ist klein genug für zehn Minuten und gross genug, dass
-es echte Mehrdeutigkeiten enthält — wie viele Umstiege sind zumutbar, wie knapp
+Warum dieses Feature? Es ist klein genug für eine kurze Demo und gross genug,
+dass es echte Mehrdeutigkeiten enthält — wie viele Umstiege sind zumutbar, wie knapp
 darf ein Anschluss sein, was passiert über Mitternacht. Das ist der Stoff, aus
 dem ein Grill besteht.
 
@@ -56,7 +56,7 @@ dem ein Grill besteht.
 | `step-6-code-review` | der Review-Bericht unter `docs/reviews/` |
 
 Jeder Branch baut auf dem vorherigen auf; `step-6-code-review` ist das
-Endresultat. Nützliche Diffs während des Vortrags:
+Endresultat. Nützliche Diffs:
 
 ```sh
 git diff main..step-2-grill --stat          # was der Grill hinterlässt: nur Doku
@@ -66,15 +66,15 @@ git log --oneline main..step-5-implement    # ein Commit pro Ticket
 
 **Spec und Tickets leben auf GitHub, nicht im Repo.** Mit einem konfigurierten
 GitHub-Tracker publizieren `/to-spec` und `/to-tickets` ausschliesslich Issues —
-die Schritte 3 und 4 fassen den Code gar nicht an. Das ist erzählbar: „Dieser
-Schritt erzeugt keine Zeile Code, er erzeugt vier Issues." Unter
-`docs/demo-kopien/` liegen ab `step-3-spec` trotzdem Textkopien, damit die Demo
-ohne Netz funktioniert; eine README dort stellt klar, dass sie bei keinem Lauf
-der Skills entstehen.
+die Schritte 3 und 4 fassen den Code gar nicht an. Ein Schritt, der keine Zeile
+Code erzeugt, sondern vier Issues. Unter `docs/demo-kopien/` liegen ab
+`step-3-spec` trotzdem Textkopien, damit sich Spec und Tickets auch ohne Netz
+nebeneinanderlegen lassen; eine README dort stellt klar, dass sie bei keinem
+Lauf der Skills entstehen.
 
 ## Regieplan
 
-| Schritt | Was | Worauf das Publikum achten soll |
+| Schritt | Was | Worauf es ankommt |
 |---|---|---|
 | 1 | Ausgangslage: `npm test`, dann `npm run suche -- Luzern "Interlaken Ost" 08:00` | Das Problem ist in einem Satz erklärt und in einer Zeile sichtbar. |
 | 2 | `/grill-with-docs` mit einem bewusst vagen Wunsch | **Der Agent baut nicht. Er fragt.** Das ist der Bruch mit der Erwartung. |
@@ -84,14 +84,13 @@ der Skills entstehen.
 | 6 | `/implement` mit `npm run test:watch` im zweiten Fenster | Rot → grün, viermal. Kein Big-Bang-Commit. |
 | 7 | Der Beweis-Moment und der Review (beide unten) | Warum die Frage im Grill kein Selbstzweck war. |
 
-Schritt 2 und 6 dauern am längsten und sind am wenigsten planbar — wie lange sie
-brauchen, hängt vom Agenten ab. Wenn die Zeit knapp wird, kürzt du den Grill
-nach zwei Runden ab („das reicht uns für heute") und wechselst bei der
-Implementierung auf den fertigen Branch.
+Schritt 2 und 6 dauern am längsten und sind am wenigsten planbar; wie lange sie
+brauchen, hängt vom Agenten ab. Wird die Zeit knapp, lässt sich der Grill nach
+zwei Runden abkürzen und bei der Implementierung auf den fertigen Branch
+wechseln.
 
-**Zur Sicherheit:** Alle Branches existieren bereits. Wenn ein Agent live zäh
-wird, einfach auf den nächsten Branch wechseln und weitererzählen — die Demo
-bricht nie ab.
+**Zur Sicherheit:** Alle Branches existieren bereits. Wird ein Agent live zäh,
+genügt ein Wechsel auf den nächsten Branch — die Demo bricht nie ab.
 
 ## Der Beweis-Moment
 
@@ -121,8 +120,8 @@ Anschluss sein?"). Deshalb steht heute eine **Mindestumsteigezeit von fünf
 Minuten** in der Spec, im ADR und im Test, und die Suche liefert korrekt den
 IC 6 um 09:30.
 
-Das ist das stärkste Argument des Vortrags: Der Wert des Workflows liegt nicht
-darin, dass der Agent schneller tippt. Er liegt darin, dass die richtigen
+Das ist das stärkste Argument für den Workflow: Sein Wert liegt nicht darin,
+dass der Agent schneller tippt. Er liegt darin, dass die richtigen
 Fragen gestellt werden, **bevor** Code entsteht.
 
 Der Aufhänger, der jetzt funktioniert:
@@ -138,8 +137,8 @@ Elf Minuten Umsteigezeit in Olten — knapp, aber über der vereinbarten Schrank
 ## Der Schluss, der besser ist als ein Happy End
 
 Die Demo endet **nicht** mit „alles grün". Der Zwei-Achsen-Review auf
-`step-6-code-review` hat neun Befunde produziert, und drei davon sind gute
-Vortragsmomente:
+`step-6-code-review` hat neun Befunde produziert. Drei davon sind besonders
+aufschlussreich:
 
 1. **Die Spec hat sich geirrt.** Sie sagte, genau ein bestehender Test müsse
    angepasst werden. Es waren drei. Der Review hat nachgemessen, dass zwei
@@ -157,9 +156,9 @@ Vortragsmomente:
    untestbar. Der Review empfiehlt, das im Ticket zu vermerken statt einen Test
    zu erzwingen, der die Naht verlassen müsste.
 
-Das ist die **Schluss-Folie auf GitHub**: Die Issue-Liste zeigt nicht fünfmal
-„erledigt", sondern zwei geschlossene Tickets und drei offene Punkte — jeder mit
-einer Begründung, die aus dem Review stammt.
+Entsprechend sieht die Issue-Liste am Ende aus: nicht fünfmal „erledigt",
+sondern zwei geschlossene Tickets und drei offene Punkte, jeder mit einer
+Begründung aus dem Review.
 
 | Issue | Status | Warum |
 |---|---|---|
@@ -169,13 +168,12 @@ einer Begründung, die aus dem Review stammt.
 | [#4](https://github.com/jbandi/agentic-sbb-example/issues/4) Dominanzfilter | offen | Zwei seiner Kriterien sind durch Regel 1 desselben Tickets unbeobachtbar geworden. Kein Mangel am Code, sondern eine Erkenntnis über das Ticket. |
 | [#1](https://github.com/jbandi/agentic-sbb-example/issues/1) Spec | offen | Wartet auf die Produktentscheidung zu den dreifach angezeigten Reisen. |
 
-Die Begründungen stehen als Kommentare an den Issues — du kannst sie live
-aufklappen, statt sie zu erzählen.
+Die Begründungen stehen ausformuliert als Kommentare an den Issues.
 
 Der vollständige Bericht: `docs/reviews/umsteigeverbindungen.md` auf
 `step-6-code-review`.
 
-## Die Demo für einen neuen Vortrag neu aufsetzen
+## Die Demo neu aufsetzen
 
 [SETUP-NEUES-REPO.md](./SETUP-NEUES-REPO.md) enthält einen fertigen Prompt, der
 ein frisches Demo-Repo anlegt: Ausgangs-App plus Skills-Konfiguration, ohne
@@ -193,13 +191,13 @@ Die Skills liegen danach unter `~/.claude/skills/`. Einmalig pro Repo:
 /setup-matt-pocock-skills
 ```
 
-**Ein Detail, das man vor dem Vortrag kennen muss:**
-`setup-matt-pocock-skills`, `to-spec`, `to-tickets` und `implement` tragen
+**Ein Detail, das man vorher kennen muss:** `setup-matt-pocock-skills`, `to-spec`, `to-tickets` und `implement` tragen
 `disable-model-invocation: true`. Sie starten **nur**, wenn ein Mensch den
 Slash-Command tippt — ein Agent kann sie nicht selbst aufrufen und wird
 ausdrücklich angewiesen, den Workflow auch nicht nachzubauen. Der führende
 Schrägstrich ist dabei entscheidend: Text, der bloss mit `to-spec` beginnt,
 gilt nicht als Aufruf.
 
-Für die Live-Demo ist das ein Vorteil — der Mensch bleibt der Auslöser jedes
-Schritts. Beim Vorbereiten heisst es: diese vier Schritte von Hand anstossen.
+Für eine Live-Demo ist das ein Vorteil: Der Mensch bleibt der Auslöser jedes
+Schritts. Beim Vorbereiten bedeutet es, dass diese vier Schritte von Hand
+angestossen werden müssen.
