@@ -54,12 +54,17 @@ Dieser Branch enthält die Ausgangs-App plus die Skills-Konfiguration unter
 `docs/agents/`. Lösch danach `.git` und leg eine frische Historie an — das neue
 Repo soll keine Vorgeschichte haben.
 
-**Kritisch:** `CONTEXT.md`, `docs/adr/`, `docs/demo-kopien/` und `docs/reviews/`
-dürfen NICHT vorhanden sein. Das sind die Ergebnisse der
+**Kritisch:** `CONTEXT.md`, `docs/adr/`, `docs/demo-kopien/`, `docs/reviews/` und
+`DEMO.md` dürfen NICHT vorhanden sein. Das sind die Ergebnisse der
 Schritte, die ich live vorführe. Liegen sie schon da, liest der Agent sie beim
 Explorieren und stellt die Fragen im Grill gar nicht mehr — die Demo fällt in
 sich zusammen. Auf `step-1-setup-skills` fehlen sie korrekterweise; prüf es
 trotzdem und lösch sie, falls doch etwas mitgekommen ist.
+
+`DEMO.md` liegt dort und muss weg: Die Anleitung nennt die Mindestumsteigezeit,
+die ADRs und die Tickets — ein Agent, der sie beim Explorieren liest, kennt die
+Antworten des Grills bereits. Nach dem Vortrag lässt sie sich jederzeit aus dem
+Referenz-Repo nachziehen.
 
 ## 4. Repo-Namen in der Konfiguration umbiegen
 
