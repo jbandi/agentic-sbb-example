@@ -123,6 +123,40 @@ describe("sucheVerbindungen", () => {
     expect(formatZeit(ankunftszeit(verbindungen[0]!))).toBe("11:33");
   });
 
+  it("liefert höchstens fünf Verbindungen, ohne dominierte", () => {
+    const verbindungen = sucheVerbindungen(fahrplan, {
+      von: "LZ",
+      nach: "IO",
+      ab: parseZeit("08:00"),
+    });
+
+    expect(verbindungen.map((verbindung) => alsFahrplanzeilen(verbindung).join(" | "))).toEqual([
+      "08:09 IR 36 LZ→OL 08:52 | 09:03 IC 61 OL→IO 10:33",
+      "09:09 IR 36 LZ→OL 09:52 | 10:03 IC 61 OL→IO 11:33",
+      "10:09 IR 36 LZ→OL 10:52 | 11:03 IC 61 OL→IO 12:33",
+      "11:09 IR 36 LZ→OL 11:52 | 12:03 IC 61 OL→IO 13:33",
+      "12:09 IR 36 LZ→OL 12:52 | 13:03 IC 61 OL→IO 14:33",
+    ]);
+  });
+
+  it("verwirft eine Verbindung, die eine andere in jeder Hinsicht schlägt", () => {
+    // Um 08:09 in Luzern losfahren und in Olten bis 11:03 warten kommt gleich
+    // an wie die Abfahrt um 09:09 — bei gleich vielen Umstiegen. Die frühere
+    // Abfahrt ist damit dominiert und darf nicht erscheinen.
+    const verbindungen = sucheVerbindungen(fahrplan, {
+      von: "LZ",
+      nach: "IO",
+      ab: parseZeit("08:00"),
+    });
+
+    const dominierte = verbindungen.filter(
+      (verbindung) =>
+        formatZeit(verbindung.abschnitte[0]!.abfahrt) === "08:09" &&
+        formatZeit(ankunftszeit(verbindung)) === "11:33",
+    );
+    expect(dominierte).toEqual([]);
+  });
+
   it("liefert eine Ankunft nach Mitternacht als Zeit am Folgetag", () => {
     const verbindungen = sucheVerbindungen(fahrplan, {
       von: "GE",

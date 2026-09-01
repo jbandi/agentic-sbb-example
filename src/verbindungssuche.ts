@@ -1,6 +1,6 @@
 import type { Fahrplan, StationsId } from "./domain/fahrplan.js";
 import type { Abschnitt, Verbindung } from "./domain/verbindung.js";
-import { ankunftszeit } from "./domain/verbindung.js";
+import { abfahrtszeit, ankunftszeit, anzahlUmstiege } from "./domain/verbindung.js";
 import type { Zeit } from "./domain/zeit.js";
 
 export interface Suchanfrage {
@@ -19,6 +19,9 @@ const STANDARD_MINDESTUMSTEIGEZEIT = 5;
 
 /** Höchstens so viele Umstiege, also höchstens ein Abschnitt mehr. */
 const MAX_UMSTIEGE = 1;
+
+/** So viele Verbindungen bleiben nach Filter und Sortierung übrig. */
+const MAX_VERBINDUNGEN = 5;
 
 /**
  * Alle Abschnitte, die sich von `von` aus in einer einzigen Fahrt zurücklegen
@@ -93,6 +96,49 @@ function sammleVerbindungen(
 }
 
 /**
+ * Ob `a` die Verbindung `b` dominiert: nirgends schlechter, mindestens in einem
+ * der drei Kriterien Abfahrt, Ankunft und Anzahl Umstiege echt besser.
+ */
+function dominiert(a: Verbindung, b: Verbindung): boolean {
+  const nirgendsSchlechter =
+    abfahrtszeit(a) >= abfahrtszeit(b) &&
+    ankunftszeit(a) <= ankunftszeit(b) &&
+    anzahlUmstiege(a) <= anzahlUmstiege(b);
+
+  const irgendwoBesser =
+    abfahrtszeit(a) > abfahrtszeit(b) ||
+    ankunftszeit(a) < ankunftszeit(b) ||
+    anzahlUmstiege(a) < anzahlUmstiege(b);
+
+  return nirgendsSchlechter && irgendwoBesser;
+}
+
+/** Früheste Ankunft, dann wenigste Umstiege, dann späteste Abfahrt. */
+function vergleiche(a: Verbindung, b: Verbindung): number {
+  return (
+    ankunftszeit(a) - ankunftszeit(b) ||
+    anzahlUmstiege(a) - anzahlUmstiege(b) ||
+    abfahrtszeit(b) - abfahrtszeit(a)
+  );
+}
+
+/** Behält die Pareto-Front über Abfahrt, Ankunft und Anzahl Umstiege. */
+function verwirfDominierte(verbindungen: Verbindung[]): Verbindung[] {
+  // In dieser Reihenfolge steht ein Dominator stets vor der Verbindung, die er
+  // dominiert. Ein Vergleich gegen die bereits behaltenen genügt deshalb.
+  const geordnet = [...verbindungen].sort(vergleiche);
+
+  const front: Verbindung[] = [];
+  for (const kandidat of geordnet) {
+    if (!front.some((behalten) => dominiert(behalten, kandidat))) {
+      front.push(kandidat);
+    }
+  }
+
+  return front;
+}
+
+/**
  * Sucht Verbindungen von `von` nach `nach`, die frühestens um `anfrage.ab` starten.
  *
  * Gefunden werden Direktverbindungen und Verbindungen mit Umstieg. Ein Umstieg
@@ -114,5 +160,5 @@ export function sucheVerbindungen(fahrplan: Fahrplan, anfrage: Suchanfrage): Ver
     [],
   );
 
-  return verbindungen.sort((a, b) => ankunftszeit(a) - ankunftszeit(b));
+  return verwirfDominierte(verbindungen).sort(vergleiche).slice(0, MAX_VERBINDUNGEN);
 }
