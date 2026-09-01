@@ -24,6 +24,14 @@ Laufzeit-Abhängigkeiten.
   (`sucheVerbindungen`), nicht an internen Hilfsfunktionen.
 - Reine Funktionen bevorzugen; kein globaler Zustand.
 
+## Commits
+
+- **Keine Signatur-Trailer.** Commit-Messages enthalten weder `Co-Authored-By:`
+  noch `Claude-Session:` noch einen „Generated with"-Hinweis. Wer committet hat,
+  steht im Git-Autor; die Message beschreibt ausschliesslich die Änderung.
+- Betreffzeile im Imperativ und auf Deutsch, keine Zeichen ausserhalb von
+  ASCII — sonst zerlegen manche Terminals das Log.
+
 ## Agent skills
 
 ### Issue tracker
