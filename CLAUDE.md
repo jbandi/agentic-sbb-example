@@ -23,3 +23,17 @@ Laufzeit-Abhängigkeiten.
   gegen Mocks. Getestet wird an der öffentlichen Schnittstelle
   (`sucheVerbindungen`), nicht an internen Hilfsfunktionen.
 - Reine Funktionen bevorzugen; kein globaler Zustand.
+
+## Agent skills
+
+### Issue tracker
+
+Issues und Specs leben als GitHub Issues in `jbandi/agentic-sbb-example` (via `gh` CLI). See `docs/agents/issue-tracker.md`.
+
+### Triage labels
+
+Die fünf kanonischen Labels unverändert: `needs-triage`, `needs-info`, `ready-for-agent`, `ready-for-human`, `wontfix`. See `docs/agents/triage-labels.md`.
+
+### Domain docs
+
+Single-context: ein `CONTEXT.md` und ein `docs/adr/` im Repo-Root. See `docs/agents/domain.md`.
