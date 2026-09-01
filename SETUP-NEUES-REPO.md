@@ -71,7 +71,8 @@ Referenz-Repo nachziehen.
 Der alte Slug `jbandi/agentic-sbb-example` steht an genau zwei Stellen. Ersetz
 ihn dort durch den neuen:
 
-- `CLAUDE.md`, im Abschnitt `## Agent skills` → `### Issue tracker`
+- `AGENTS.md`, im Abschnitt `## Agent skills` → `### Issue tracker` (`CLAUDE.md`
+  importiert diese Datei nur und enthält den Slug nicht)
 - `docs/agents/issue-tracker.md`, erste Zeile unter der Überschrift
 
 Grep danach noch einmal über das ganze Repo, um sicherzugehen, dass keine
