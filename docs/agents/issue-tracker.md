@@ -25,6 +25,28 @@ When set to `yes`, PRs run through the same labels and states as issues, using t
 
 GitHub shares one number space across issues and PRs, so a bare `#42` may be either: resolve with `gh pr view 42` and fall back to `gh issue view 42`.
 
+## Tickets schliessen
+
+Sobald die Arbeit an einem Ticket committet und die Testsuite grün ist, wird das
+Issue sofort geschlossen — im selben Lauf, ohne dass jemand danach fragen muss:
+
+    gh issue close <n> --comment "<ein Satz: was umgesetzt wurde, mit Commit-SHA>"
+
+Nicht auf einen Merge nach `main` warten. Dieses Repo arbeitet mit einem Branch
+pro Arbeitsschritt, und GitHubs `Closes #N`-Automatik greift ausschliesslich auf
+dem Default-Branch; in einer Commit-Message auf einem Feature-Branch bleibt das
+Schlüsselwort wirkungslos.
+
+Drei Regeln dazu:
+
+- **Nur bei erfüllten Akzeptanzkriterien schliessen.** Ist eines offen, wird das
+  Issue stattdessen kommentiert: was fehlt und was zum Schliessen nötig wäre.
+- **Das Eltern-Issue der Spec bleibt offen.** Es wird weder geschlossen noch
+  verändert, auch wenn alle Kind-Tickets zu sind — offene Produktentscheidungen
+  gehören als Kommentar dorthin.
+- **Der Kommentar nennt den Commit-SHA**, damit später nachvollziehbar ist, wo
+  die Arbeit gelandet ist.
+
 ## When a skill says "publish to the issue tracker"
 
 Create a GitHub issue.
