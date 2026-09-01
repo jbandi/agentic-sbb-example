@@ -25,10 +25,9 @@ springen.
 | Datei | Issue |
 |---|---|
 | `issue-01-spec-umsteigeverbindungen.md` | [#1](https://github.com/jbandi/agentic-sbb-example/issues/1) |
-| `issue-02-prefactor-abschnitte.md` | [#2](https://github.com/jbandi/agentic-sbb-example/issues/2) |
-| `issue-03-ein-umstieg.md` | [#3](https://github.com/jbandi/agentic-sbb-example/issues/3) |
-| `issue-04-dominanzfilter-sortierung.md` | [#4](https://github.com/jbandi/agentic-sbb-example/issues/4) |
-| `issue-05-zwei-umstiege.md` | [#5](https://github.com/jbandi/agentic-sbb-example/issues/5) |
+
+Die Tickets folgen im nächsten Schritt (`/to-tickets`), ebenfalls nur als
+Issues.
 
 Weichen Kopie und Issue voneinander ab, gilt das Issue. Kommentare, Labels,
 Blocking-Kanten und der Status leben ohnehin nur dort — dieser Ordner hält bloss
