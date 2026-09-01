@@ -162,6 +162,12 @@ Einrichtung, nicht Teil des Flows, den die Demo zeigt.
 Das ist der Notausgang, falls im Vortragsraum das WLAN streikt: Die Demo
 funktioniert dann als Lesung statt als Live-Session.
 
+## Die Demo für einen neuen Vortrag neu aufsetzen
+
+[SETUP-NEUES-REPO.md](./SETUP-NEUES-REPO.md) enthält einen fertigen Prompt, der
+ein frisches Demo-Repo anlegt: Ausgangs-App plus Skills-Konfiguration, ohne
+jede Spur des Flows. Er fragt nur nach dem Repo-Namen und macht den Rest selbst.
+
 ## Die Skills installieren
 
 ```sh
