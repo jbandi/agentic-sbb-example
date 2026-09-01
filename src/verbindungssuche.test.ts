@@ -1,6 +1,6 @@
 import { beforeAll, describe, expect, it } from "vitest";
 import type { Fahrplan } from "./domain/fahrplan.js";
-import { anzahlUmstiege, reisedauer } from "./domain/verbindung.js";
+import { ankunftszeit, anzahlUmstiege, reisedauer, type Verbindung } from "./domain/verbindung.js";
 import { formatZeit, parseZeit } from "./domain/zeit.js";
 import { ladeFahrplanAusDatei } from "./fahrplan-laden.js";
 import { sucheVerbindungen } from "./verbindungssuche.js";
@@ -15,6 +15,15 @@ beforeAll(() => {
 function alsText(fahrplan: Fahrplan, index: number, verbindungen: ReturnType<typeof sucheVerbindungen>) {
   const abschnitt = verbindungen[index]!.abschnitte[0]!;
   return `${formatZeit(abschnitt.abfahrt)} → ${formatZeit(abschnitt.ankunft)} (${abschnitt.linie})`;
+}
+
+/** Eine Verbindung als eine Zeile pro Abschnitt: "08:09 IR 36 LZ→OL 08:52". */
+function alsFahrplanzeilen(verbindung: Verbindung): string[] {
+  return verbindung.abschnitte.map(
+    (abschnitt) =>
+      `${formatZeit(abschnitt.abfahrt)} ${abschnitt.linie} ${abschnitt.von}→${abschnitt.nach}` +
+      ` ${formatZeit(abschnitt.ankunft)}`,
+  );
 }
 
 describe("sucheVerbindungen", () => {
@@ -48,30 +57,81 @@ describe("sucheVerbindungen", () => {
       ab: parseZeit("08:00"),
     });
 
-    const ankuenfte = verbindungen.map((v) => v.abschnitte[0]!.ankunft);
+    const ankuenfte = verbindungen.map((v) => ankunftszeit(v));
     expect(ankuenfte).toEqual([...ankuenfte].sort((a, b) => a - b));
   });
 
-  it("findet keine Verbindung, wenn die Fahrtrichtung nicht passt", () => {
-    // Die IR 36 Richtung Basel hält in Luzern und Olten, aber nicht umgekehrt.
+  it("fährt jeden Abschnitt in der Richtung seiner Fahrt", () => {
+    // Die IR 36 Richtung Basel hält in Luzern und Olten, aber nicht umgekehrt:
+    // eine Direktverbindung Olten → Luzern fährt zwingend Richtung Luzern.
     const verbindungen = sucheVerbindungen(fahrplan, {
       von: "OL",
       nach: "LZ",
       ab: parseZeit("08:00"),
     });
 
-    for (const verbindung of verbindungen) {
+    const direkte = verbindungen.filter((verbindung) => anzahlUmstiege(verbindung) === 0);
+    expect(direkte.length).toBeGreaterThan(0);
+    for (const verbindung of direkte) {
       expect(verbindung.abschnitte[0]!.richtung).toBe("Luzern");
+    }
+
+    for (const verbindung of verbindungen) {
+      for (const abschnitt of verbindung.abschnitte) {
+        expect(abschnitt.ankunft).toBeGreaterThan(abschnitt.abfahrt);
+      }
     }
   });
 
-  it("findet Luzern → Interlaken Ost nicht, weil es keine Direktverbindung gibt", () => {
+  it("findet Luzern → Interlaken Ost mit einem Umstieg in Olten", () => {
     const verbindungen = sucheVerbindungen(fahrplan, {
       von: "LZ",
       nach: "IO",
       ab: parseZeit("08:00"),
     });
 
-    expect(verbindungen).toEqual([]);
+    expect(alsFahrplanzeilen(verbindungen[0]!)).toEqual([
+      "08:09 IR 36 LZ→OL 08:52",
+      "09:03 IC 61 OL→IO 10:33",
+    ]);
+    expect(anzahlUmstiege(verbindungen[0]!)).toBe(1);
+  });
+
+  it("verwirft einen Umstieg, der die Mindestumsteigezeit nicht erreicht", () => {
+    // In Olten kommt der IC 1 um 08:30 an und der IC 6 nach Brig fährt um 08:30 ab.
+    // Dieser Umstieg hätte die früheste Ankunft und stünde sonst zuoberst.
+    const verbindungen = sucheVerbindungen(fahrplan, {
+      von: "ZUE",
+      nach: "BR",
+      ab: parseZeit("08:00"),
+    });
+
+    expect(alsFahrplanzeilen(verbindungen[0]!)).toEqual([
+      "08:02 IC 1 ZUE→OL 08:30",
+      "09:30 IC 6 OL→BR 11:30",
+    ]);
+  });
+
+  it("berücksichtigt eine heraufgesetzte Mindestumsteigezeit", () => {
+    const verbindungen = sucheVerbindungen(fahrplan, {
+      von: "LZ",
+      nach: "IO",
+      ab: parseZeit("08:00"),
+      mindestUmsteigezeit: 15,
+    });
+
+    expect(formatZeit(ankunftszeit(verbindungen[0]!))).toBe("11:33");
+  });
+
+  it("liefert eine Ankunft nach Mitternacht als Zeit am Folgetag", () => {
+    const verbindungen = sucheVerbindungen(fahrplan, {
+      von: "GE",
+      nach: "ZUE",
+      ab: parseZeit("21:00"),
+    });
+
+    const letzte = verbindungen[verbindungen.length - 1]!;
+    expect(ankunftszeit(letzte)).toBe(1470);
+    expect(formatZeit(ankunftszeit(letzte))).toBe("00:30+1");
   });
 });

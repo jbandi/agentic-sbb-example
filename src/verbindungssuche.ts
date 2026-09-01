@@ -8,7 +8,17 @@ export interface Suchanfrage {
   nach: StationsId;
   /** Frühestmögliche Abfahrtszeit. */
   ab: Zeit;
+  /**
+   * Minuten, die zwischen der Ankunft eines Abschnitts und der Abfahrt des
+   * nächsten mindestens liegen müssen, damit ein Umstieg als machbar gilt.
+   */
+  mindestUmsteigezeit?: number;
 }
+
+const STANDARD_MINDESTUMSTEIGEZEIT = 5;
+
+/** Höchstens so viele Umstiege, also höchstens ein Abschnitt mehr. */
+const MAX_UMSTIEGE = 1;
 
 /**
  * Alle Abschnitte, die sich von `von` aus in einer einzigen Fahrt zurücklegen
@@ -45,18 +55,64 @@ function abschnitteAb(fahrplan: Fahrplan, von: StationsId, fruehestensAb: Zeit):
 }
 
 /**
+ * Sammelt alle Verbindungen von `von` nach `ziel`, die frühestens um `ab`
+ * losfahren und höchstens `verbleibendeUmstiege` weitere Umstiege brauchen.
+ */
+function sammleVerbindungen(
+  fahrplan: Fahrplan,
+  von: StationsId,
+  ab: Zeit,
+  ziel: StationsId,
+  mindestUmsteigezeit: number,
+  verbleibendeUmstiege: number,
+  bisher: Abschnitt[],
+): Verbindung[] {
+  const gefunden: Verbindung[] = [];
+
+  for (const abschnitt of abschnitteAb(fahrplan, von, ab)) {
+    const abschnitte = [...bisher, abschnitt];
+
+    if (abschnitt.nach === ziel) {
+      gefunden.push({ abschnitte });
+    } else if (verbleibendeUmstiege > 0) {
+      gefunden.push(
+        ...sammleVerbindungen(
+          fahrplan,
+          abschnitt.nach,
+          abschnitt.ankunft + mindestUmsteigezeit,
+          ziel,
+          mindestUmsteigezeit,
+          verbleibendeUmstiege - 1,
+          abschnitte,
+        ),
+      );
+    }
+  }
+
+  return gefunden;
+}
+
+/**
  * Sucht Verbindungen von `von` nach `nach`, die frühestens um `anfrage.ab` starten.
  *
- * Gefunden werden aktuell nur Direktverbindungen: Fahrten, die beide Stationen
- * in der richtigen Reihenfolge bedienen. Reisen mit Umstieg liefert die Suche
- * noch nicht.
+ * Gefunden werden Direktverbindungen und Verbindungen mit Umstieg. Ein Umstieg
+ * gilt als machbar, wenn er an derselben Station stattfindet und die
+ * Umsteigezeit die Mindestumsteigezeit erreicht.
  *
  * Sortiert nach Ankunftszeit.
  */
 export function sucheVerbindungen(fahrplan: Fahrplan, anfrage: Suchanfrage): Verbindung[] {
-  const verbindungen = abschnitteAb(fahrplan, anfrage.von, anfrage.ab)
-    .filter((abschnitt) => abschnitt.nach === anfrage.nach)
-    .map((abschnitt) => ({ abschnitte: [abschnitt] }));
+  const mindestUmsteigezeit = anfrage.mindestUmsteigezeit ?? STANDARD_MINDESTUMSTEIGEZEIT;
+
+  const verbindungen = sammleVerbindungen(
+    fahrplan,
+    anfrage.von,
+    anfrage.ab,
+    anfrage.nach,
+    mindestUmsteigezeit,
+    MAX_UMSTIEGE,
+    [],
+  );
 
   return verbindungen.sort((a, b) => ankunftszeit(a) - ankunftszeit(b));
 }
