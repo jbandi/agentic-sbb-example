@@ -37,3 +37,18 @@ Die fünf kanonischen Labels unverändert: `needs-triage`, `needs-info`, `ready-
 ### Domain docs
 
 Single-context: ein `CONTEXT.md` und ein `docs/adr/` im Repo-Root. See `docs/agents/domain.md`.
+
+### Tickets schliessen
+
+Sobald die Arbeit an einem Ticket committet und die Testsuite grün ist, schliesse
+das Issue selbst — ohne dass jemand danach fragen muss:
+
+    gh issue close <n> --comment "<ein Satz: was umgesetzt wurde, mit Commit-SHA>"
+
+Nicht auf einen Merge nach `main` warten. Wir arbeiten mit einem Branch pro
+Schritt, und GitHubs `Closes #N`-Automatik greift nur auf dem Default-Branch —
+auf einem Feature-Branch bleibt sie wirkungslos.
+
+Ist ein Akzeptanzkriterium **nicht** erfüllt, wird das Issue nicht geschlossen,
+sondern kommentiert: was fehlt und was zum Schliessen nötig wäre. Das
+Eltern-Issue der Spec wird nie geschlossen. See `docs/agents/issue-tracker.md`.
