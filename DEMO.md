@@ -50,7 +50,7 @@ dem ein Grill besteht.
 | `main` | Ausgangslage: nur Direktverbindungen, 11 Tests |
 | `step-1-setup-skills` | `docs/agents/*` — Issue-Tracker, Triage-Labels, Domain-Doc-Layout |
 | `step-2-grill` | `CONTEXT.md` (15 Begriffe) und zwei ADRs |
-| `step-3-spec` | Spec als [Issue #1](https://github.com/jbandi/agentic-sbb-example/issues/1), Kopie unter `docs/specs/` |
+| `step-3-spec` | Spec als [Issue #1](https://github.com/jbandi/agentic-sbb-example/issues/1) |
 | `step-4-tickets` | vier Tickets als [Issues #2–#5](https://github.com/jbandi/agentic-sbb-example/issues) mit nativen Blocking-Kanten |
 | `step-5-implement` | das Feature, ein Commit pro Ticket, 18 Tests |
 | `step-6-code-review` | der Review-Bericht unter `docs/reviews/` |
@@ -63,6 +63,14 @@ git diff main..step-2-grill --stat          # was der Grill hinterlässt: nur Do
 git diff main..step-5-implement -- src/     # was am Code wirklich passiert ist
 git log --oneline main..step-5-implement    # ein Commit pro Ticket
 ```
+
+**Spec und Tickets leben auf GitHub, nicht im Repo.** Mit einem konfigurierten
+GitHub-Tracker publizieren `/to-spec` und `/to-tickets` ausschliesslich Issues —
+die Schritte 3 und 4 fassen den Code gar nicht an. Das ist erzählbar: „Dieser
+Schritt erzeugt keine Zeile Code, er erzeugt vier Issues." Unter
+`docs/demo-kopien/` liegen ab `step-3-spec` trotzdem Textkopien, damit die Demo
+ohne Netz funktioniert; eine README dort stellt klar, dass sie bei keinem Lauf
+der Skills entstehen.
 
 ## Regieplan für zehn Minuten
 
