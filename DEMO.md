@@ -52,7 +52,7 @@ Das ist der Stoff, aus dem ein Grill besteht.
 | `main` | Ausgangslage: nur Direktverbindungen, 11 Tests |
 | `step-1-setup-skills` | `docs/agents/*` — Issue-Tracker, Triage-Labels, Domain-Doc-Layout |
 | `step-2-grill` | `CONTEXT.md` (Glossar mit 15 Begriffen) und zwei ADRs |
-| `step-3-spec` | die Spec als GitHub-Issue |
+| `step-3-spec` | die Spec als [Issue #1](https://github.com/jbandi/agentic-sbb-example/issues/1) + Kopie unter `docs/specs/` |
 | `step-4-tickets` | die Tickets als GitHub-Issues mit Blocking-Kanten |
 | `step-5-implement` | das fertige Feature, test-getrieben gebaut |
 | `step-6-code-review` | der Review-Bericht |
@@ -154,8 +154,8 @@ Schritte aber von Hand anstossen.
 
 ## Die Branches step-3 bis step-6 erzeugen
 
-`main`, `step-1-setup-skills` und `step-2-grill` liegen fertig auf GitHub. Die
-restlichen Branches entstehen mit drei getippten Slash-Commands, jeweils in
+`main`, `step-1-setup-skills`, `step-2-grill` und `step-3-spec` liegen fertig auf GitHub. Die
+restlichen Branches entstehen mit zwei getippten Slash-Commands, jeweils in
 einer **frischen** Claude-Code-Session im Repo-Verzeichnis (frisch, weil jeder
 Schritt sonst den Kontext des vorherigen mitschleppt — genau das soll der
 Workflow ja vermeiden).
@@ -173,14 +173,13 @@ Quellen zuerst und synthetisiere daraus die Spec — die Naht ist sucheVerbindun
 **Schritt 4 — Tickets.** `git checkout -b step-4-tickets`, dann:
 
 ```
-/to-tickets Die Spec liegt als GitHub-Issue #<Nummer aus Schritt 3>.
+/to-tickets Die Spec liegt als GitHub-Issue #1.
 ```
 
 **Schritt 5 — Implementierung.** `git checkout -b step-5-implement`, dann:
 
 ```
-/implement Die Tickets #<a> bis #<b> aus Issue #<Spec-Nummer>. Arbeite sie in
-Dependency-Reihenfolge ab.
+/implement Die Tickets aus Issue #1. Arbeite sie in Dependency-Reihenfolge ab.
 ```
 
 `/implement` ruft am Ende selbst `/code-review` auf. Für einen eigenen
