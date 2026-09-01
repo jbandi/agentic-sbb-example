@@ -92,6 +92,130 @@ wechseln.
 **Zur Sicherheit:** Alle Branches existieren bereits. Wird ein Agent live zäh,
 genügt ein Wechsel auf den nächsten Branch — die Demo bricht nie ab.
 
+## Die Prompts zum Kopieren
+
+Die Nummern entsprechen dem Regieplan. Schritt 1, 3 und 7 sind Shell-Befehle,
+die übrigen Slash-Commands. Der führende Schrägstrich gehört mitkopiert: Text,
+der bloss mit `to-spec` beginnt, startet den Skill nicht.
+
+### 1 — Ausgangslage
+
+```sh
+npm test
+npm run suche -- Bern "Zürich HB" 08:00
+npm run suche -- Luzern "Interlaken Ost" 08:00
+```
+
+### 2 — Grill
+
+Bewusst vage: keine Zahlen, keine Randfälle, kein Wort über Umsteigezeiten.
+Genau das ist der Punkt — die fehlenden Entscheidungen soll der Agent selbst
+einfordern.
+
+```
+/grill-with-docs Die Verbindungssuche soll auch Verbindungen mit Umstieg finden.
+```
+
+Darauf fragt der Agent in Runden. Der folgende Block deckt alle neun
+Entscheidungen ab, die dabei fallen; pro Runde genügt der jeweils passende
+Ausschnitt.
+
+```
+1. Maximal zwei Umstiege. In einem Netz mit zwölf Bahnhöfen ist alles darüber
+   kein Reisevorschlag mehr, sondern ein Symptom.
+2. Mindestumsteigezeit fünf Minuten, als optionales Feld auf der Suchanfrage
+   mit Default 5, damit man es pro Anfrage überschreiben kann. Jemand mit
+   Koffer und Kind rechnet anders als jemand mit Rucksack.
+   Bahnhofsspezifische Umsteigezeiten sind bewusst out of scope, nicht
+   vergessen — halte das als ADR fest, damit es in drei Monaten niemand als
+   Bug meldet.
+3. Ein Umstieg findet nur am selben Halt statt. Fusswege zwischen zwei
+   Bahnhöfen sind out of scope.
+4. Sortierung: früheste Ankunft, dann wenigste Umstiege, dann späteste
+   Abfahrt. Wer später losfahren kann und gleich ankommt, gewinnt.
+5. Dominierte Verbindungen werden verworfen: raus, wenn eine andere existiert,
+   die nicht später abfährt, nicht später ankommt und nicht mehr Umstiege hat
+   und in mindestens einem davon echt besser ist. Auch das als ADR festhalten.
+6. Höchstens fünf Verbindungen im Resultat.
+7. Ein Betriebstag. Über Mitternacht darf eine Reise gehen, Fahrten des
+   Folgetags gibt es nicht.
+8. Eine einzige Naht: sucheVerbindungen(fahrplan, anfrage). Kein neues
+   öffentliches Modul, nichts Neues exportiert. Getestet wird ausschliesslich
+   dort, gegen den echten data/fahrplan.json.
+9. Die CLI bleibt unverändert.
+```
+
+Zum Abschluss des Grills, sobald die Zusammenfassung stimmt:
+
+```
+Passt genau. Schreib es fest: das Glossar in CONTEXT.md, die beiden ADRs.
+Noch keinen Produktivcode.
+```
+
+### 3 — Was der Grill hinterlassen hat
+
+```sh
+git status --short
+cat CONTEXT.md
+cat docs/adr/0001-*.md
+```
+
+### 4 — Spec
+
+Ohne Argumente. Der Skill nimmt den Kontext der laufenden Session — das ist
+hier die eigentliche Pointe: Das Gespräch von eben *ist* die Eingabe.
+
+```
+/to-spec
+```
+
+### 5 — Tickets
+
+```
+/to-tickets
+```
+
+Der Agent legt die Aufteilung zur Freigabe vor. Antwort:
+
+```
+Granularität passt, die Kanten auch. Publizier sie so.
+```
+
+### 6 — Implementierung
+
+```
+/implement Arbeite die Tickets in Dependency-Reihenfolge ab.
+```
+
+### 7 — Beweis-Moment und Review
+
+```sh
+npm run suche -- "Zürich HB" Brig 08:00
+npm run suche -- Luzern "Interlaken Ost" 08:00
+```
+
+```
+/code-review seit main
+```
+
+### Wenn ein Schritt in einer frischen Session laufen muss
+
+`/to-spec`, `/to-tickets` und `/implement` leben vom Kontext der laufenden
+Session. Startet ein Schritt in einem neuen Fenster, braucht er einen Zeiger
+auf die Artefakte des vorherigen:
+
+```
+/to-spec Feature: Umsteigeverbindungen. Der Grill ist gelaufen; die Entscheide stehen in CONTEXT.md und in docs/adr/. Lies beides zuerst und synthetisiere daraus die Spec — die Naht ist sucheVerbindungen().
+```
+
+```
+/to-tickets Die Spec liegt als GitHub-Issue #1.
+```
+
+```
+/implement Die Tickets #2 bis #5 aus Issue #1. Arbeite sie in Dependency-Reihenfolge ab.
+```
+
 ## Der Beweis-Moment
 
 Auf `step-5-implement` oder `step-6-code-review`:
