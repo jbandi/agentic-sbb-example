@@ -1,7 +1,10 @@
 # Ticket #2: Prefactor: Abschnitte einer Fahrt wiederverwendbar aus dem Fahrplan ziehen
 
-GitHub-Issue [#2](https://github.com/jbandi/agentic-sbb-example/issues/2), Label `ready-for-agent`.
-Erzeugt mit `/to-tickets` aus Spec-Issue #1. Massgeblich ist das Issue.
+> **Demo-Kopie, kein Ergebnis der Skills.** `/to-tickets` hat dieses Ticket
+> ausschliesslich als GitHub-Issue
+> [#2](https://github.com/jbandi/agentic-sbb-example/issues/2) publiziert
+> (Label `ready-for-agent`), aus Spec-Issue #1. Die Datei hier wurde für den
+> Vortrag danebengelegt — siehe [README](./README.md). Massgeblich ist das Issue.
 
 ---
 
