@@ -1,0 +1,155 @@
+{
+  "hinweis": "Vereinfachter Beispielfahrplan. Linien und Zeiten sind an das Schweizer Netz angelehnt, aber frei erfunden.",
+  "stationen": [
+    { "id": "GE", "name": "Genève" },
+    { "id": "LS", "name": "Lausanne" },
+    { "id": "BN", "name": "Bern" },
+    { "id": "OL", "name": "Olten" },
+    { "id": "ZUE", "name": "Zürich HB" },
+    { "id": "BS", "name": "Basel SBB" },
+    { "id": "TH", "name": "Thun" },
+    { "id": "SP", "name": "Spiez" },
+    { "id": "BR", "name": "Brig" },
+    { "id": "IO", "name": "Interlaken Ost" },
+    { "id": "LZ", "name": "Luzern" },
+    { "id": "ZG", "name": "Zug" }
+  ],
+  "linien": [
+    {
+      "linie": "IC 1",
+      "richtung": "Zürich HB",
+      "ersteAbfahrt": "05:42",
+      "taktMinuten": 60,
+      "anzahlFahrten": 17,
+      "halte": [
+        { "station": "GE", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "LS", "ankunftNachMin": 36, "abfahrtNachMin": 39 },
+        { "station": "BN", "ankunftNachMin": 106, "abfahrtNachMin": 110 },
+        { "station": "OL", "ankunftNachMin": 137, "abfahrtNachMin": 140 },
+        { "station": "ZUE", "ankunftNachMin": 168, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IC 1",
+      "richtung": "Genève",
+      "ersteAbfahrt": "06:02",
+      "taktMinuten": 60,
+      "anzahlFahrten": 17,
+      "halte": [
+        { "station": "ZUE", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "OL", "ankunftNachMin": 28, "abfahrtNachMin": 31 },
+        { "station": "BN", "ankunftNachMin": 58, "abfahrtNachMin": 62 },
+        { "station": "LS", "ankunftNachMin": 128, "abfahrtNachMin": 131 },
+        { "station": "GE", "ankunftNachMin": 167, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IC 6",
+      "richtung": "Brig",
+      "ersteAbfahrt": "06:00",
+      "taktMinuten": 60,
+      "anzahlFahrten": 16,
+      "halte": [
+        { "station": "BS", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "OL", "ankunftNachMin": 27, "abfahrtNachMin": 30 },
+        { "station": "BN", "ankunftNachMin": 58, "abfahrtNachMin": 62 },
+        { "station": "TH", "ankunftNachMin": 80, "abfahrtNachMin": 82 },
+        { "station": "SP", "ankunftNachMin": 96, "abfahrtNachMin": 98 },
+        { "station": "BR", "ankunftNachMin": 150, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IC 6",
+      "richtung": "Basel SBB",
+      "ersteAbfahrt": "05:56",
+      "taktMinuten": 60,
+      "anzahlFahrten": 16,
+      "halte": [
+        { "station": "BR", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "SP", "ankunftNachMin": 52, "abfahrtNachMin": 54 },
+        { "station": "TH", "ankunftNachMin": 68, "abfahrtNachMin": 70 },
+        { "station": "BN", "ankunftNachMin": 89, "abfahrtNachMin": 93 },
+        { "station": "OL", "ankunftNachMin": 121, "abfahrtNachMin": 124 },
+        { "station": "BS", "ankunftNachMin": 151, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IC 61",
+      "richtung": "Interlaken Ost",
+      "ersteAbfahrt": "06:33",
+      "taktMinuten": 60,
+      "anzahlFahrten": 14,
+      "halte": [
+        { "station": "BS", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "OL", "ankunftNachMin": 27, "abfahrtNachMin": 30 },
+        { "station": "BN", "ankunftNachMin": 58, "abfahrtNachMin": 62 },
+        { "station": "TH", "ankunftNachMin": 80, "abfahrtNachMin": 82 },
+        { "station": "SP", "ankunftNachMin": 96, "abfahrtNachMin": 99 },
+        { "station": "IO", "ankunftNachMin": 120, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IC 61",
+      "richtung": "Basel SBB",
+      "ersteAbfahrt": "06:35",
+      "taktMinuten": 60,
+      "anzahlFahrten": 14,
+      "halte": [
+        { "station": "IO", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "SP", "ankunftNachMin": 22, "abfahrtNachMin": 25 },
+        { "station": "TH", "ankunftNachMin": 41, "abfahrtNachMin": 43 },
+        { "station": "BN", "ankunftNachMin": 63, "abfahrtNachMin": 68 },
+        { "station": "OL", "ankunftNachMin": 96, "abfahrtNachMin": 99 },
+        { "station": "BS", "ankunftNachMin": 126, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IR 36",
+      "richtung": "Basel SBB",
+      "ersteAbfahrt": "05:09",
+      "taktMinuten": 60,
+      "anzahlFahrten": 17,
+      "halte": [
+        { "station": "LZ", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "OL", "ankunftNachMin": 43, "abfahrtNachMin": 46 },
+        { "station": "BS", "ankunftNachMin": 73, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IR 36",
+      "richtung": "Luzern",
+      "ersteAbfahrt": "06:12",
+      "taktMinuten": 60,
+      "anzahlFahrten": 17,
+      "halte": [
+        { "station": "BS", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "OL", "ankunftNachMin": 27, "abfahrtNachMin": 31 },
+        { "station": "LZ", "ankunftNachMin": 74, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IR 70",
+      "richtung": "Zürich HB",
+      "ersteAbfahrt": "05:35",
+      "taktMinuten": 60,
+      "anzahlFahrten": 18,
+      "halte": [
+        { "station": "LZ", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "ZG", "ankunftNachMin": 23, "abfahrtNachMin": 25 },
+        { "station": "ZUE", "ankunftNachMin": 50, "abfahrtNachMin": null }
+      ]
+    },
+    {
+      "linie": "IR 70",
+      "richtung": "Luzern",
+      "ersteAbfahrt": "06:07",
+      "taktMinuten": 60,
+      "anzahlFahrten": 18,
+      "halte": [
+        { "station": "ZUE", "ankunftNachMin": null, "abfahrtNachMin": 0 },
+        { "station": "ZG", "ankunftNachMin": 25, "abfahrtNachMin": 27 },
+        { "station": "LZ", "ankunftNachMin": 50, "abfahrtNachMin": null }
+      ]
+    }
+  ]
+}

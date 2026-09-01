@@ -1,0 +1,19 @@
+{
+  "name": "sbb-fahrplan",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Verbindungssuche auf einem statischen Fahrplan",
+  "scripts": {
+    "suche": "tsx src/cli.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^26.4.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8"
+  }
+}
