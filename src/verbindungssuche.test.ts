@@ -157,6 +157,39 @@ describe("sucheVerbindungen", () => {
     expect(dominierte).toEqual([]);
   });
 
+  it("findet Zug → Brig mit zwei Umstiegen", () => {
+    // Zug liegt nur an der IR 70, Brig nur an der IC 6, und die beiden Linien
+    // teilen keine Station — mit einem Umstieg ist Brig nicht erreichbar.
+    const verbindungen = sucheVerbindungen(fahrplan, {
+      von: "ZG",
+      nach: "BR",
+      ab: parseZeit("08:00"),
+    });
+
+    expect(alsFahrplanzeilen(verbindungen[0]!)).toEqual([
+      "08:34 IR 70 ZG→LZ 08:57",
+      "09:09 IR 36 LZ→OL 09:52",
+      "10:30 IC 6 OL→BR 12:30",
+    ]);
+    expect(anzahlUmstiege(verbindungen[0]!)).toBe(2);
+  });
+
+  it("liefert keine Verbindung mit mehr als zwei Umstiegen", () => {
+    const anfragen = [
+      { von: "ZG", nach: "BR" },
+      { von: "LZ", nach: "IO" },
+      { von: "GE", nach: "BR" },
+    ];
+
+    for (const { von, nach } of anfragen) {
+      const verbindungen = sucheVerbindungen(fahrplan, { von, nach, ab: parseZeit("08:00") });
+      expect(verbindungen.length).toBeGreaterThan(0);
+      for (const verbindung of verbindungen) {
+        expect(anzahlUmstiege(verbindung)).toBeLessThanOrEqual(2);
+      }
+    }
+  });
+
   it("liefert eine Ankunft nach Mitternacht als Zeit am Folgetag", () => {
     const verbindungen = sucheVerbindungen(fahrplan, {
       von: "GE",

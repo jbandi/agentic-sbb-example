@@ -17,8 +17,8 @@ export interface Suchanfrage {
 
 const STANDARD_MINDESTUMSTEIGEZEIT = 5;
 
-/** Höchstens so viele Umstiege, also höchstens ein Abschnitt mehr. */
-const MAX_UMSTIEGE = 1;
+/** Höchstens so viele Umstiege, also höchstens drei Abschnitte pro Verbindung. */
+const MAX_UMSTIEGE = 2;
 
 /** So viele Verbindungen bleiben nach Filter und Sortierung übrig. */
 const MAX_VERBINDUNGEN = 5;
@@ -141,11 +141,12 @@ function verwirfDominierte(verbindungen: Verbindung[]): Verbindung[] {
 /**
  * Sucht Verbindungen von `von` nach `nach`, die frühestens um `anfrage.ab` starten.
  *
- * Gefunden werden Direktverbindungen und Verbindungen mit Umstieg. Ein Umstieg
- * gilt als machbar, wenn er an derselben Station stattfindet und die
- * Umsteigezeit die Mindestumsteigezeit erreicht.
+ * Gefunden werden Direktverbindungen und Verbindungen mit bis zu zwei
+ * Umstiegen. Ein Umstieg gilt als machbar, wenn er an derselben Station
+ * stattfindet und die Umsteigezeit die Mindestumsteigezeit erreicht.
  *
- * Sortiert nach Ankunftszeit.
+ * Dominierte Verbindungen werden verworfen; der Rest ist nach früheste Ankunft,
+ * dann wenigste Umstiege, dann späteste Abfahrt sortiert und auf fünf gekürzt.
  */
 export function sucheVerbindungen(fahrplan: Fahrplan, anfrage: Suchanfrage): Verbindung[] {
   const mindestUmsteigezeit = anfrage.mindestUmsteigezeit ?? STANDARD_MINDESTUMSTEIGEZEIT;
