@@ -1,8 +1,11 @@
 # Spec: Umsteigeverbindungen in der Verbindungssuche
 
-Publiziert als GitHub-Issue [#1](https://github.com/jbandi/agentic-sbb-example/issues/1), Label `ready-for-agent`.
-Erzeugt mit `/to-spec` aus dem Grill auf `step-2-grill` (siehe `CONTEXT.md` und `docs/adr/`).
-Die Kopie hier im Repo dient der Demo; massgeblich ist das Issue.
+> **Demo-Kopie, kein Ergebnis der Skills.** `/to-spec` hat diese Spec geschrieben
+> und ausschliesslich als GitHub-Issue
+> [#1](https://github.com/jbandi/agentic-sbb-example/issues/1) publiziert (Label
+> `ready-for-agent`), aus dem Grill auf `step-2-grill`. Die Datei hier wurde für
+> den Vortrag danebengelegt — siehe [README](./README.md). Massgeblich ist das
+> Issue.
 
 ---
 
