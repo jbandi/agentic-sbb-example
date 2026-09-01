@@ -72,22 +72,26 @@ Schritt erzeugt keine Zeile Code, er erzeugt vier Issues." Unter
 ohne Netz funktioniert; eine README dort stellt klar, dass sie bei keinem Lauf
 der Skills entstehen.
 
-## Regieplan für zehn Minuten
+## Regieplan
 
-| Zeit | Was | Worauf das Publikum achten soll |
+| Schritt | Was | Worauf das Publikum achten soll |
 |---|---|---|
-| 0:00–1:00 | Ausgangslage: `npm test`, dann `npm run suche -- Luzern "Interlaken Ost" 08:00` | Das Problem ist in einem Satz erklärt und in einer Zeile sichtbar. |
-| 1:00–4:00 | `/grill-with-docs` mit einem bewusst vagen Wunsch | **Der Agent baut nicht. Er fragt.** Das ist der Bruch mit der Erwartung. |
-| 4:00–5:00 | `CONTEXT.md` und einen ADR aufschlagen | Aus dem Gespräch ist Projektwissen geworden, nicht nur Code. |
-| 5:00–6:00 | `/to-spec`, dann Issue #1 auf GitHub | Die Spec ist nicht im Chat verloren, sie liegt im Tracker. |
-| 6:00–7:00 | `/to-tickets`, Issue-Liste mit „Blocked by" | Vertikale Schnitte statt Layer-für-Layer. |
-| 7:00–9:00 | `/implement` mit `npm run test:watch` im zweiten Fenster | Rot → grün, viermal. Kein Big-Bang-Commit. |
-| 9:00–10:00 | Der Beweis-Moment und der Review (beide unten) | Warum die Frage im Grill kein Selbstzweck war. |
+| 1 | Ausgangslage: `npm test`, dann `npm run suche -- Luzern "Interlaken Ost" 08:00` | Das Problem ist in einem Satz erklärt und in einer Zeile sichtbar. |
+| 2 | `/grill-with-docs` mit einem bewusst vagen Wunsch | **Der Agent baut nicht. Er fragt.** Das ist der Bruch mit der Erwartung. |
+| 3 | `CONTEXT.md` und einen ADR aufschlagen | Aus dem Gespräch ist Projektwissen geworden, nicht nur Code. |
+| 4 | `/to-spec`, dann Issue #1 auf GitHub | Die Spec ist nicht im Chat verloren, sie liegt im Tracker. |
+| 5 | `/to-tickets`, Issue-Liste mit „Blocked by" | Vertikale Schnitte statt Layer-für-Layer. |
+| 6 | `/implement` mit `npm run test:watch` im zweiten Fenster | Rot → grün, viermal. Kein Big-Bang-Commit. |
+| 7 | Der Beweis-Moment und der Review (beide unten) | Warum die Frage im Grill kein Selbstzweck war. |
+
+Schritt 2 und 6 dauern am längsten und sind am wenigsten planbar — wie lange sie
+brauchen, hängt vom Agenten ab. Wenn die Zeit knapp wird, kürzt du den Grill
+nach zwei Runden ab („das reicht uns für heute") und wechselst bei der
+Implementierung auf den fertigen Branch.
 
 **Zur Sicherheit:** Alle Branches existieren bereits. Wenn ein Agent live zäh
 wird, einfach auf den nächsten Branch wechseln und weitererzählen — die Demo
-bricht nie ab. Die vollständigen Konversationen liegen zusätzlich als Markdown
-vor und lassen sich ganz ohne laufenden Agenten zeigen.
+bricht nie ab.
 
 ## Der Beweis-Moment
 
@@ -97,11 +101,20 @@ Auf `step-5-implement` oder `step-6-code-review`:
 npm run suche -- "Zürich HB" Brig 08:00
 ```
 
-Es gibt keine Direktverbindung. Eine naive Umsteigesuche findet den Umstieg in
-Olten: Der IC 1 kommt um **08:30** an, der IC 6 fährt um **08:30** ab. Null
-Minuten. Der Algorithmus liefert eine Verbindung, die physikalisch unmöglich
-ist — sie hat sogar die früheste Ankunft und stünde damit zuoberst. Und kein
-Test schlägt an, weil niemand vorher darüber nachgedacht hat.
+Es gibt keine Direktverbindung, also muss umgestiegen werden — und hier zeigt
+sich, was die Frage im Grill wert war.
+
+Eine naive Implementierung würde in Olten umsteigen lassen. Sie kettet zwei
+Abschnitte einfach dann aneinander, wenn der zweite Zug **nicht früher** abfährt
+als der erste ankommt. In Olten trifft der IC 1 um 08:30 ein, und der IC 6 nach
+Brig fährt um 08:30 ab: Nach dieser Regel ist das ein gültiger Anschluss, mit
+null Minuten zum Umsteigen.
+
+Das Tückische daran ist nicht nur, dass diese Reise physikalisch unmöglich ist.
+Sie hat auch die früheste Ankunft von allen und stünde deshalb **zuoberst** im
+Resultat — der Bug wäre also nicht ein Ausreisser irgendwo unten in der Liste,
+sondern der Vorschlag, den der Reisende zuerst sieht. Und kein Test hätte
+angeschlagen, weil niemand die Regel je aufgeschrieben hat.
 
 Genau diese Frage hat der Agent im Grill gestellt („wie knapp darf ein
 Anschluss sein?"). Deshalb steht heute eine **Mindestumsteigezeit von fünf
@@ -144,31 +157,23 @@ Vortragsmomente:
    untestbar. Der Review empfiehlt, das im Ticket zu vermerken statt einen Test
    zu erzwingen, der die Naht verlassen müsste.
 
-Deshalb sind die Issues #1–#5 bewusst **offen** geblieben. Der Workflow endet
-nicht bei grünen Tests, sondern bei einem Review, der Fragen zurückgibt.
+Das ist die **Schluss-Folie auf GitHub**: Die Issue-Liste zeigt nicht fünfmal
+„erledigt", sondern zwei geschlossene Tickets und drei offene Punkte — jeder mit
+einer Begründung, die aus dem Review stammt.
+
+| Issue | Status | Warum |
+|---|---|---|
+| [#2](https://github.com/jbandi/agentic-sbb-example/issues/2) Prefactor | **geschlossen** | Alle Akzeptanzkriterien erfüllt, der Review hat nichts beanstandet. |
+| [#5](https://github.com/jbandi/agentic-sbb-example/issues/5) Zwei Umstiege | **geschlossen** | Ebenfalls sauber — dank des Zuschnitts aus #3 genügte eine geänderte Zeile. |
+| [#3](https://github.com/jbandi/agentic-sbb-example/issues/3) Ein Umstieg | offen | Verletzt ein **eigenes** Akzeptanzkriterium: „das ist die einzige erlaubte Änderung an einem bestehenden Test". Es wurden drei geändert, zwei davon nachweislich ohne Not. |
+| [#4](https://github.com/jbandi/agentic-sbb-example/issues/4) Dominanzfilter | offen | Zwei seiner Kriterien sind durch Regel 1 desselben Tickets unbeobachtbar geworden. Kein Mangel am Code, sondern eine Erkenntnis über das Ticket. |
+| [#1](https://github.com/jbandi/agentic-sbb-example/issues/1) Spec | offen | Wartet auf die Produktentscheidung zu den dreifach angezeigten Reisen. |
+
+Die Begründungen stehen als Kommentare an den Issues — du kannst sie live
+aufklappen, statt sie zu erzählen.
 
 Der vollständige Bericht: `docs/reviews/umsteigeverbindungen.md` auf
 `step-6-code-review`.
-
-## Die Konversationen offline zeigen
-
-Jeder Schritt liegt zusätzlich als Transkript unter
-`../agentic-sbb-2026/conversations/` und lässt sich in der T3-Code-Demo-App
-abspielen, ohne dass ein Agent laufen muss:
-
-| Datei | Schritt |
-|---|---|
-| `91-grill-umsteigeverbindungen.md` | `/grill-with-docs` — das Herzstück, drei Frontier-Runden |
-| `92-spec-umsteigeverbindungen.md` | `/to-spec` |
-| `93-tickets-umsteigeverbindungen.md` | `/to-tickets` |
-| `94-implement-umsteigeverbindungen.md` | `/implement` + `/tdd` |
-| `95-code-review.md` | `/code-review` |
-
-Das einmalige `/setup-matt-pocock-skills` hat kein Transkript — es ist
-Einrichtung, nicht Teil des Flows, den die Demo zeigt.
-
-Das ist der Notausgang, falls im Vortragsraum das WLAN streikt: Die Demo
-funktioniert dann als Lesung statt als Live-Session.
 
 ## Die Demo für einen neuen Vortrag neu aufsetzen
 
