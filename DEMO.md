@@ -151,3 +151,50 @@ lassen sich **nur** starten, indem ein Mensch den Slash-Command tippt — kein
 Agent kann sie selbst aufrufen. Für die Live-Demo ist das ein Vorteil (der
 Mensch bleibt der Auslöser jedes Schritts), beim Vorbereiten muss man die
 Schritte aber von Hand anstossen.
+
+## Die Branches step-3 bis step-6 erzeugen
+
+`main`, `step-1-setup-skills` und `step-2-grill` liegen fertig auf GitHub. Die
+restlichen Branches entstehen mit drei getippten Slash-Commands, jeweils in
+einer **frischen** Claude-Code-Session im Repo-Verzeichnis (frisch, weil jeder
+Schritt sonst den Kontext des vorherigen mitschleppt — genau das soll der
+Workflow ja vermeiden).
+
+**Schritt 3 — Spec.** Vorher `git checkout step-2-grill && git checkout -b step-3-spec`, dann:
+
+```
+/to-spec Feature: Umsteigeverbindungen für die Verbindungssuche. Der Grill dazu ist
+bereits gelaufen; die Entscheide stehen in CONTEXT.md und in docs/adr/0001-*.md und
+docs/adr/0002-*.md, das vollständige Transkript in
+../agentic-sbb-2026/conversations/03-grill-umsteigeverbindungen.md. Lies diese drei
+Quellen zuerst und synthetisiere daraus die Spec — die Naht ist sucheVerbindungen().
+```
+
+**Schritt 4 — Tickets.** `git checkout -b step-4-tickets`, dann:
+
+```
+/to-tickets Die Spec liegt als GitHub-Issue #<Nummer aus Schritt 3>.
+```
+
+**Schritt 5 — Implementierung.** `git checkout -b step-5-implement`, dann:
+
+```
+/implement Die Tickets #<a> bis #<b> aus Issue #<Spec-Nummer>. Arbeite sie in
+Dependency-Reihenfolge ab.
+```
+
+`/implement` ruft am Ende selbst `/code-review` auf. Für einen eigenen
+Review-Branch stattdessen `git checkout -b step-6-code-review` und dort:
+
+```
+/code-review seit main
+```
+
+Danach die Konversationen exportieren — `../agentic-sbb-2026/EXPORT-SPEC.md`
+ist genau dafür als Prompt formuliert:
+
+```
+Exportiere diese Konversation gemäss der Spezifikation in
+../agentic-sbb-2026/EXPORT-SPEC.md nach
+../agentic-sbb-2026/conversations/04-spec-umsteigeverbindungen.md
+```
