@@ -150,12 +150,14 @@ abspielen, ohne dass ein Agent laufen muss:
 
 | Datei | Schritt |
 |---|---|
-| `02-setup-skills.md` | `/setup-matt-pocock-skills` |
-| `03-grill-umsteigeverbindungen.md` | `/grill-with-docs` — das Herzstück, drei Frontier-Runden |
-| `04-spec-umsteigeverbindungen.md` | `/to-spec` |
-| `05-tickets-umsteigeverbindungen.md` | `/to-tickets` |
-| `06-implement-umsteigeverbindungen.md` | `/implement` + `/tdd` |
-| `07-code-review.md` | `/code-review` |
+| `91-grill-umsteigeverbindungen.md` | `/grill-with-docs` — das Herzstück, drei Frontier-Runden |
+| `92-spec-umsteigeverbindungen.md` | `/to-spec` |
+| `93-tickets-umsteigeverbindungen.md` | `/to-tickets` |
+| `94-implement-umsteigeverbindungen.md` | `/implement` + `/tdd` |
+| `95-code-review.md` | `/code-review` |
+
+Das einmalige `/setup-matt-pocock-skills` hat kein Transkript — es ist
+Einrichtung, nicht Teil des Flows, den die Demo zeigt.
 
 Das ist der Notausgang, falls im Vortragsraum das WLAN streikt: Die Demo
 funktioniert dann als Lesung statt als Live-Session.
